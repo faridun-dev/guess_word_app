@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_word_app/components/game_card.dart';
+import 'package:guess_word_app/pages/guess_game.dart';
 import 'package:guess_word_app/pages/learn_game.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +15,14 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const LearnGame(),
+      ),
+    );
+  }
+
+  void guessGame() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const GuessGame(),
       ),
     );
   }
@@ -41,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           ),
           GameCard(
             title: "Guess Words 🤔",
-            onTap: () {},
+            onTap: guessGame,
           ),
           GameCard(
             title: "Match Words 🎯",
