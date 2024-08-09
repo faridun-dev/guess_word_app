@@ -12,6 +12,8 @@ class _GuessGameState extends State<GuessGame> {
   final _box = Hive.box("dataBase");
   bool question = true;
   int currentIndex = 0;
+  int correct = 0;
+  int incorrect = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,9 @@ class _GuessGameState extends State<GuessGame> {
         int currentScore = data[word]![1];
         if (isCorrect) {
           currentScore++;
+          correct++;
+        } else {
+          incorrect++;
         }
         data[word]![1] = currentScore;
 
@@ -54,6 +59,28 @@ class _GuessGameState extends State<GuessGame> {
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "$correct",
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontSize: 20,
+                ),
+              ),
+              Text(
+                "$incorrect",
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(

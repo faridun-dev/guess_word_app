@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final _box = Hive.box("dataBase");
   void learnWords() {
     Navigator.of(context).push(

@@ -12,6 +12,7 @@ class _LearnGameState extends State<LearnGame> {
   final _box = Hive.box("dataBase");
 
   int currentIndex = 0;
+  bool question = true;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class _LearnGameState extends State<LearnGame> {
     void nextWord() {
       setState(() {
         currentIndex++;
+        question = true;
       });
     }
 
@@ -66,24 +68,31 @@ class _LearnGameState extends State<LearnGame> {
                   ),
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 20,
-                      right: 20,
-                      bottom: 20,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(12),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        question = !question;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 20,
+                        right: 20,
+                        bottom: 20,
                       ),
-                      child: Center(
-                        child: Text(
-                          translations[currentIndex][0],
-                          style: const TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            question ? "?" : translations[currentIndex][0],
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
