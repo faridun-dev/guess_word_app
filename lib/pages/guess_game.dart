@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_word_app/database/db.dart';
 
 class GuessGame extends StatefulWidget {
   const GuessGame({super.key});
@@ -9,9 +10,35 @@ class GuessGame extends StatefulWidget {
 
 class _GuessGameState extends State<GuessGame> {
   bool question = true;
+  final db = DataBase();
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final data = db.retrieveData("lesson_1");
+
+    List words = data!.keys.toList();
+    List translations = data.values.toList();
+
+    void nextPair() {
+      setState(() {
+        currentIndex++;
+        question = true;
+      });
+    }
+
+    void updateScore(String word, bool isCorrect) {
+      if (data.containsKey(word)) {
+        int currentScore = data[word]![1];
+        if (isCorrect) {
+          currentScore++;
+        }
+        data[word]![1] = currentScore;
+
+        db.storeLesson("lesson_1", data);
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.blue[600],
       appBar: AppBar(
@@ -38,10 +65,10 @@ class _GuessGameState extends State<GuessGame> {
                 decoration: const BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "Word",
-                    style: TextStyle(
+                    words[currentIndex],
+                    style: const TextStyle(
                       fontSize: 25,
                       color: Colors.white,
                     ),
@@ -70,7 +97,7 @@ class _GuessGameState extends State<GuessGame> {
                   ),
                   child: Center(
                     child: Text(
-                      question ? "?" : "Translation",
+                      question ? "?" : translations[currentIndex][0],
                       style: const TextStyle(
                         fontSize: 25,
                         color: Colors.white,
@@ -92,7 +119,10 @@ class _GuessGameState extends State<GuessGame> {
                     50,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  updateScore(words[currentIndex], true);
+                  nextPair();
+                },
                 child: const Text(
                   "CORRECT",
                   style: TextStyle(
@@ -108,7 +138,10 @@ class _GuessGameState extends State<GuessGame> {
                     50,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  updateScore(words[currentIndex], false);
+                  nextPair();
+                },
                 child: const Text(
                   "INCORRECT",
                   style: TextStyle(

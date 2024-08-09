@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess_word_app/components/game_card.dart';
+import 'package:guess_word_app/database/db.dart';
 import 'package:guess_word_app/pages/guess_game.dart';
 import 'package:guess_word_app/pages/learn_game.dart';
 
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final db = DataBase();
   void learnWords() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -25,6 +27,16 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => const GuessGame(),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (db.retrieveData("lesson_1") == null) {
+      db.initialData();
+    } else {
+      db.retrieveData("lesson_1");
+    }
   }
 
   @override
