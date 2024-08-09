@@ -14,12 +14,25 @@ class _LearnGameState extends State<LearnGame> {
   @override
   void initState() {
     super.initState();
-    db.storeLesson();
+    final Map<String, List<dynamic>> lesson_1 = {
+      "hello": ["привет", 0],
+      "bye": ["пока", 0],
+    };
+    db.storeLesson("lesson_1", lesson_1);
   }
 
   @override
   Widget build(BuildContext context) {
-    final data = db.retrieveData();
+    final data = db.retrieveData("lesson_1");
+    List words = [];
+    List translations = [];
+    for (var i = 0; i < data!.length; i++) {
+      words.add(data.keys.elementAt(i));
+    }
+    for (var i = 0; i < data.length; i++) {
+      translations.add(data.values.elementAt(i));
+    }
+
     return Scaffold(
       backgroundColor: Colors.blue[600],
       appBar: AppBar(
@@ -49,7 +62,7 @@ class _LearnGameState extends State<LearnGame> {
                 ),
                 child: Center(
                   child: Text(
-                    data!.keys.elementAt(0),
+                    data.keys.elementAt(0),
                     style: const TextStyle(
                       fontSize: 25,
                       color: Colors.white,
