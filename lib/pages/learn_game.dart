@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_word_app/database/db.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class LearnGame extends StatefulWidget {
   const LearnGame({super.key});
@@ -9,12 +9,13 @@ class LearnGame extends StatefulWidget {
 }
 
 class _LearnGameState extends State<LearnGame> {
-  final db = DataBase();
+  final _box = Hive.box("dataBase");
+
   int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final data = db.retrieveData("lesson_1");
+    final data = _box.get("lesson_1");
     List words = data!.keys.toList();
     List translations = data.values.toList();
 
