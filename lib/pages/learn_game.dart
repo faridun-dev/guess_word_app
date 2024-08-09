@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_word_app/database/db.dart';
 
 class LearnGame extends StatefulWidget {
   const LearnGame({super.key});
@@ -8,8 +9,17 @@ class LearnGame extends StatefulWidget {
 }
 
 class _LearnGameState extends State<LearnGame> {
+  final db = DataBase();
+
+  @override
+  void initState() {
+    super.initState();
+    db.storeLesson();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final data = db.retrieveData();
     return Scaffold(
       backgroundColor: Colors.blue[600],
       appBar: AppBar(
@@ -33,13 +43,14 @@ class _LearnGameState extends State<LearnGame> {
                 right: 20,
               ),
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.blue,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "Word",
-                    style: TextStyle(
+                    data!.keys.elementAt(0),
+                    style: const TextStyle(
                       fontSize: 25,
                       color: Colors.white,
                     ),
@@ -57,13 +68,14 @@ class _LearnGameState extends State<LearnGame> {
                 bottom: 20,
               ),
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.blue,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "Translation",
-                    style: TextStyle(
+                    data["hello"]![0],
+                    style: const TextStyle(
                       fontSize: 25,
                       color: Colors.white,
                     ),

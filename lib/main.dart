@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:guess_word_app/pages/home_page.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox("dataBase");
   runApp(const MainApp());
 }
 
