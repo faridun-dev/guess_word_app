@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guess_word_app/components/game_card.dart';
 import 'package:guess_word_app/pages/guess_game.dart';
 import 'package:guess_word_app/pages/learn_game.dart';
+import 'package:guess_word_app/pages/match_game.dart';
 import 'package:guess_word_app/pages/scores_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -26,6 +27,14 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const GuessGame(),
+      ),
+    );
+  }
+
+  void matchWords() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const MatchGame(),
       ),
     );
   }
@@ -96,7 +105,7 @@ class _HomePageState extends State<HomePage> {
           ),
           GameCard(
             title: "Match Words 🎯",
-            onTap: () {},
+            onTap: matchWords,
           ),
           GameCard(
             title: "Scores 🏅",
