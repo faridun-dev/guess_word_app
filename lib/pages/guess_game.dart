@@ -57,132 +57,194 @@ class _GuessGameState extends State<GuessGame> {
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue,
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                "$correct",
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontSize: 20,
+      body: currentIndex < words.length
+          ? Column(
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              Text(
-                "$incorrect",
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-              ),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Center(
-                  child: Text(
-                    words[currentIndex],
-                    style: const TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  question = !question;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  left: 20,
-                  right: 20,
-                  bottom: 20,
-                ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Center(
-                    child: Text(
-                      question ? "?" : translations[currentIndex][0],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "$correct",
                       style: const TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
+                        color: Colors.green,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      "$incorrect",
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 20,
+                      right: 20,
+                    ),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.blue,
+                      ),
+                      child: Center(
+                        child: Text(
+                          words[currentIndex],
+                          style: const TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        question = !question;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 20,
+                        right: 20,
+                        bottom: 20,
+                      ),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                        ),
+                        child: Center(
+                          child: Text(
+                            question ? "?" : translations[currentIndex][0],
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        minimumSize: const Size(
+                          150,
+                          50,
+                        ),
+                      ),
+                      onPressed: () {
+                        updateScore(words[currentIndex], true);
+                        nextPair();
+                      },
+                      child: const Text(
+                        "CORRECT",
+                        style: TextStyle(
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        minimumSize: const Size(
+                          150,
+                          50,
+                        ),
+                      ),
+                      onPressed: () {
+                        updateScore(words[currentIndex], false);
+                        nextPair();
+                      },
+                      child: const Text(
+                        "INCORRECT",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Game is over 👌🏻",
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Correct: $correct",
+                        style: const TextStyle(
+                          fontSize: 25,
+                          color: Colors.green,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "Incorrect: $incorrect",
+                        style: const TextStyle(
+                          fontSize: 25,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      minimumSize: const Size(
+                        200,
+                        50,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        currentIndex = 0;
+                        correct = 0;
+                        incorrect = 0;
+                      });
+                    },
+                    child: const Text(
+                      "AGAIN",
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  minimumSize: const Size(
-                    150,
-                    50,
-                  ),
-                ),
-                onPressed: () {
-                  updateScore(words[currentIndex], true);
-                  nextPair();
-                },
-                child: const Text(
-                  "CORRECT",
-                  style: TextStyle(
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  minimumSize: const Size(
-                    150,
-                    50,
-                  ),
-                ),
-                onPressed: () {
-                  updateScore(words[currentIndex], false);
-                  nextPair();
-                },
-                child: const Text(
-                  "INCORRECT",
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
     );
   }
 }
